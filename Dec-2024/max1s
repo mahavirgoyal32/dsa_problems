@@ -1,0 +1,59 @@
+### Brute force
+class Solution {
+public:
+    int longestOnes(vector<int>& nums, int k) {
+        int temp = k;
+        int i = 0;
+        int ans = 0;
+        int len = 0;
+    while(i< nums.size()){
+        temp=k;
+
+        int j=i;
+        len = 0;
+        while(temp>0 && j<nums.size()){
+            if(nums[j]==0){
+                temp--;
+            } 
+            len++;
+            j++;
+        }
+         ans = max(ans, len);     
+       i++;
+
+    }
+    return ans;
+    
+    }
+};
+
+
+
+
+### sliding window
+
+int longestOnes(vector<int>& nums, int m) {
+        int start = 0;  // Start of the sliding window
+        int zeros = 0;  // Count of zeros in the current window
+        int maxLen = 0; // Maximum length of subarray
+
+        for (int end = 0; end < nums.size(); end++) {
+            // Expand the window
+            if (nums[end] == 0) {
+                zeros++;
+            }
+
+            // Shrink the window if the number of zeros exceeds m
+            while (zeros > m) {
+                if (nums[start] == 0) {
+                    zeros--;
+                }
+                start++;
+            }
+
+            // Update the maximum length
+            maxLen = max(maxLen, end - start + 1);
+        }
+
+        return maxLen;
+    }
