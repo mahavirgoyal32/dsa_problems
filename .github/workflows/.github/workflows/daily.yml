@@ -1,0 +1,25 @@
+name: Daily Commit
+
+on:
+  schedule:
+    - cron: "0 8 * * *"  # every day at 8 AM UTC
+  workflow_dispatch:
+
+jobs:
+  push-daily:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Create file
+        run: |
+          echo "# LeetCode Daily - $(date)" > "leetcode_$(date +'%Y-%m-%d').md"
+      
+      - name: Commit and push
+        run: |
+          git config user.name "mahavirgoyal32"
+          git config user.email "mahavirgoyal32@gmail.com"
+          git add .
+          git commit -m "Daily Commit - $(date +'%Y-%m-%d')" || echo "No changes to commit"
+          git push
