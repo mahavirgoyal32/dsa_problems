@@ -2,12 +2,13 @@ name: Daily Commit
 
 on:
   schedule:
-    - cron: "30 3 * * *"  # every day at 8 AM UTC
+    - cron: "30 3 * * *"  # 9:00 AM IST (3:30 AM UTC)
   workflow_dispatch:
 
 jobs:
   push-daily:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -15,11 +16,11 @@ jobs:
       - name: Create file
         run: |
           echo "# LeetCode Daily - $(date)" > "leetcode_$(date +'%Y-%m-%d').md"
-      
+
       - name: Commit and push
         run: |
-          git config user.name "mahavirgoyal32"
-          git config user.email "mahavirgoyal32@gmail.com"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add .
           git commit -m "Daily Commit - $(date +'%Y-%m-%d')" || echo "No changes to commit"
-          git push
+          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} HEAD:main
