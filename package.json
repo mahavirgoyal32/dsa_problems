@@ -1,0 +1,12 @@
+{
+  "name": "dsa_problems",
+  "version": "1.0.0",
+  "description": "This is repository for dsa daily Problems, we will also find solutions here refrering for CPP",
+  "main": "generateLeetCodeMarkdown.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

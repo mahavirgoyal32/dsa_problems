@@ -1,26 +1,33 @@
-name: Daily Commit
+name: LeetCode Auto Markdown
 
 on:
   schedule:
-    - cron: "30 3 * * *"  # 9:00 AM IST (3:30 AM UTC)
+    - cron: "30 3 * * *"  # 9:00 AM IST
   workflow_dispatch:
 
 jobs:
-  push-daily:
+  daily-leetcode:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Create file
-        run: |
-          echo "# LeetCode Daily - $(date)" > "leetcode_$(date +'%Y-%m-%d').md"
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Fetch LeetCode daily challenge
+        run: node scripts/fetchLeetCodeProblem.js
+
+      - name: Generate markdown from template
+        run: node scripts/generateMarkdown.js
 
       - name: Commit and push
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add .
-          git commit -m "Daily Commit - $(date +'%Y-%m-%d')" || echo "No changes to commit"
+          git commit -m "Add daily LeetCode log for $(date +'%Y-%m-%d')" || echo "No changes to commit"
           git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} HEAD:main
