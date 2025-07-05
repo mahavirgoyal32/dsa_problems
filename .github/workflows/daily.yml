@@ -22,7 +22,7 @@ jobs:
         run: node scripts/fetchLeetCodeProblem.js
 
       - name: Generate markdown from template
-        run: node ../scripts/generateLeetCodeMarkdown.js
+        run: node scripts/generateLeetCodeMarkdown.js
 
       - name: Commit and push
         run: |
