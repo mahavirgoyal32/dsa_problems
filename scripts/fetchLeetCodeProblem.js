@@ -1,6 +1,8 @@
 const fs = require('fs');
 const https = require('https');
 
+const sessionCookie = process.env.LEETCODE_SESSION;
+
 function fetchDailyProblem(callback) {
   const query = `
     query questionOfToday {
@@ -11,7 +13,7 @@ function fetchDailyProblem(callback) {
           title
           titleSlug
           difficulty
-          content  # ✅ this includes full HTML description
+          content  # Full HTML description
         }
       }
     }
@@ -25,7 +27,11 @@ function fetchDailyProblem(callback) {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Content-Length': data.length
+      'Content-Length': data.length,
+      'Cookie': `LEETCODE_SESSION=${sessionCookie};`,
+      'Referer': 'https://leetcode.com/',
+      'Origin': 'https://leetcode.com',
+      'User-Agent': 'Mozilla/5.0'
     }
   };
 
@@ -37,15 +43,21 @@ function fetchDailyProblem(callback) {
     });
 
     res.on('end', () => {
-      const json = JSON.parse(responseBody);
-      const question = json.data.activeDailyCodingChallengeQuestion.question;
-      fs.writeFileSync('scripts/currentProblem.json', JSON.stringify(question, null, 2));
-      callback(question);
+      try {
+        const json = JSON.parse(responseBody);
+        const question = json.data.activeDailyCodingChallengeQuestion.question;
+        fs.writeFileSync('scripts/currentProblem.json', JSON.stringify(question, null, 2));
+        callback(question);
+      } catch (error) {
+        console.error('Failed to parse response:\n', responseBody);
+        process.exit(1);
+      }
     });
   });
 
   req.on('error', (error) => {
     console.error(error);
+    process.exit(1);
   });
 
   req.write(data);

@@ -9,6 +9,9 @@ jobs:
   daily-leetcode:
     runs-on: ubuntu-latest
 
+    env:
+      LEETCODE_SESSION: ${{ secrets.LEETCODE_SESSION }}  # 👈 Inject the secret
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -31,3 +34,4 @@ jobs:
           git add .
           git commit -m "Add daily LeetCode log for $(date +'%Y-%m-%d')" || echo "No changes to commit"
           git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} HEAD:main
+          

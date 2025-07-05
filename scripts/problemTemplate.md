@@ -8,19 +8,19 @@
 
 ### 📝 Problem Description
 
-_(To be filled manually or scraped if needed)_
+{{DESCRIPTION}}
 
 ---
 
 ### 📘 Examples
 
-_(To be filled manually)_
+_(Extracted from description if needed)_
 
 ---
 
 ### ✅ Constraints
 
-_(To be filled manually)_
+_(Usually included in description)_
 
 ---
 

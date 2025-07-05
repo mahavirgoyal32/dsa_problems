@@ -6,10 +6,10 @@ const template = fs.readFileSync(path.join(__dirname, 'problemTemplate.md'), 'ut
 
 const today = new Date().toISOString().split('T')[0];
 
-// 🧹 Clean and convert HTML to markdown (basic)
+// Basic HTML to text conversion
 const htmlToText = (html) =>
   html
-    .replace(/<[^>]+>/g, '') // Remove HTML tags
+    .replace(/<\/?[^>]+(>|$)/g, '') // Remove tags
     .replace(/&nbsp;/g, ' ')
     .replace(/&lt;/g, '<')
     .replace(/&gt;/g, '>')
