@@ -11,6 +11,7 @@ function fetchDailyProblem(callback) {
           title
           titleSlug
           difficulty
+          content  # ✅ this includes full HTML description
         }
       }
     }
@@ -38,6 +39,7 @@ function fetchDailyProblem(callback) {
     res.on('end', () => {
       const json = JSON.parse(responseBody);
       const question = json.data.activeDailyCodingChallengeQuestion.question;
+      fs.writeFileSync('scripts/currentProblem.json', JSON.stringify(question, null, 2));
       callback(question);
     });
   });
@@ -50,6 +52,4 @@ function fetchDailyProblem(callback) {
   req.end();
 }
 
-fetchDailyProblem((question) => {
-  fs.writeFileSync('scripts/currentProblem.json', JSON.stringify(question, null, 2));
-});
+fetchDailyProblem(() => {});
