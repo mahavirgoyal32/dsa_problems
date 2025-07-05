@@ -12,18 +12,6 @@
 
 ---
 
-### 📘 Examples
-
-_(Extracted from description if needed)_
-
----
-
-### ✅ Constraints
-
-_(Usually included in description)_
-
----
-
 ### 💡 Solution (Language)
 
 ```cpp
