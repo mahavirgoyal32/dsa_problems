@@ -47,4 +47,42 @@ Constraints:
 ### 💡 Solution (Language)
 
 ```cpp
-// Paste your solution here
+class Solution {
+public:
+    int maxEvents(vector<vector<int>>& events) {
+        // Sort by start day
+        sort(events.begin(), events.end());
+
+        priority_queue<int, vector<int>, greater<int>> minHeap; // stores end days
+        int day = 0, i = 0, n = events.size(), res = 0;
+
+        // Process days up to the latest possible end day
+        while (!minHeap.empty() || i < n) {
+            if (minHeap.empty()) {
+                // No events active, jump to the next start day
+                day = events[i][0];
+            }
+
+            // Add all events starting today
+            while (i < n && events[i][0] == day) {
+                minHeap.push(events[i][1]);
+                i++;
+            }
+
+            // Remove expired events
+            while (!minHeap.empty() && minHeap.top() < day) {
+                minHeap.pop();
+            }
+
+            // Attend one event (earliest ending)
+            if (!minHeap.empty()) {
+                minHeap.pop();
+                res++;
+                day++;
+            }
+        }
+
+        return res;
+    }
+};
+
