@@ -50,4 +50,7 @@ Constraints:
 ### 💡 Solution (Language)
 
 ```cpp
-// Paste your solution here
+
+- my solution
+- i want to check with munish about github workflow
+```
