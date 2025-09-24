@@ -50,4 +50,52 @@ Constraints:
 ### 💡 Solution (Language)
 
 ```cpp
-// Paste your solution here
+
+#include <bits/stdc++.h>
+using namespace std;
+
+class Solution {
+public:
+    string fractionToDecimal(int numerator, int denominator) {
+        if (numerator == 0) return "0";
+
+        string result;
+
+        // sign handling
+        if ((numerator < 0) ^ (denominator < 0)) result += "-";
+
+        // convert to long long to avoid overflow (e.g., INT_MIN / -1)
+        long long num = llabs((long long)numerator);
+        long long den = llabs((long long)denominator);
+
+        // integer part
+        long long integerPart = num / den;
+        result += to_string(integerPart);
+
+        long long remainder = num % den;
+        if (remainder == 0) return result; // no fractional part
+
+        result += ".";
+
+        // map remainder -> position in result
+        unordered_map<long long, int> remainderPos;
+        string fraction;
+
+        while (remainder != 0) {
+            if (remainderPos.count(remainder)) {
+                // insert '(' at position and append ')'
+                fraction.insert(remainderPos[remainder], "(");
+                fraction += ")";
+                break;
+            }
+
+            remainderPos[remainder] = fraction.size();
+            remainder *= 10;
+            fraction += to_string(remainder / den);
+            remainder %= den;
+        }
+
+        result += fraction;
+        return result;
+    }
+};
