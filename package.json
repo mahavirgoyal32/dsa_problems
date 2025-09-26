@@ -1,12 +1,20 @@
 {
   "name": "dsa_problems",
   "version": "1.0.0",
-  "description": "This is repository for dsa daily Problems, we will also find solutions here refrering for CPP",
+  "description": "Daily DSA/LeetCode problems with solutions (auto-generated and AI-assisted).",
   "main": "generateLeetCodeMarkdown.js",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "fetch": "node scripts/fetchLeetCodeProblem.js",
+    "generate": "node scripts/generateLeetCodeMarkdown.js",
+    "solve": "node scripts/generateSolutionAI.js",
+    "daily": "npm run fetch && npm run generate && npm run solve"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+  "keywords": ["leetcode", "dsa", "automation", "ai"],
+  "author": "mahavirgoyal32",
+  "license": "ISC",
+  "dependencies": {
+    "openai": "4.0.0",
+    "node-fetch": "3.3.2"
+  }
 }

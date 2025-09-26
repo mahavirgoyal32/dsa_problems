@@ -1,5 +1,5 @@
-const fs = require('fs');
-const https = require('https');
+import fs from 'fs';
+import https from 'https';
 
 const sessionCookie = process.env.LEETCODE_SESSION;
 
@@ -46,7 +46,7 @@ function fetchDailyProblem(callback) {
       try {
         const json = JSON.parse(responseBody);
         const question = json.data.activeDailyCodingChallengeQuestion.question;
-        fs.writeFileSync('scripts/currentProblem.json', JSON.stringify(question, null, 2));
+        fs.writeFileSync(new URL('./currentProblem.json', import.meta.url), JSON.stringify(question, null, 2));
         callback(question);
       } catch (error) {
         console.error('Failed to parse response:\n', responseBody);
@@ -64,4 +64,5 @@ function fetchDailyProblem(callback) {
   req.end();
 }
 
+// Run the fetch
 fetchDailyProblem(() => {});

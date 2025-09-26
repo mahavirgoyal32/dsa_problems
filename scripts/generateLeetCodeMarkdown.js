@@ -1,7 +1,15 @@
-const fs = require('fs');
-const path = require('path');
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
-const problem = require('./currentProblem.json');
+// ESM equivalent of __dirname
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Import the problem JSON
+import problem from './currentProblem.json' assert { type: 'json' };
+
+// Read the template
 const template = fs.readFileSync(path.join(__dirname, 'problemTemplate.md'), 'utf-8');
 
 const today = new Date().toISOString().split('T')[0];
@@ -27,3 +35,4 @@ const output = template
   .replace(/{{DESCRIPTION}}/g, description);
 
 fs.writeFileSync(`LeetCode-${today}-${problem.titleSlug}.md`, output);
+console.log(`✅ Markdown file created: LeetCode-${today}-${problem.titleSlug}.md`);

@@ -10,7 +10,8 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      LEETCODE_SESSION: ${{ secrets.LEETCODE_SESSION }}  # 👈 Inject the secret
+      LEETCODE_SESSION: ${{ secrets.LEETCODE_SESSION }}
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
 
     steps:
       - name: Checkout repository
@@ -21,11 +22,12 @@ jobs:
         with:
           node-version: '18'
 
-      - name: Fetch LeetCode daily challenge
-        run: node scripts/fetchLeetCodeProblem.js
+      - name: Install dependencies
+        run: npm install
 
-      - name: Generate markdown from template
-        run: node scripts/generateLeetCodeMarkdown.js
+      - name: Run daily script
+        run: npm run daily
+        continue-on-error: true  # ensures AI failure won't stop commit
 
       - name: Commit and push
         run: |
@@ -34,4 +36,3 @@ jobs:
           git add .
           git commit -m "Add daily LeetCode log for $(date +'%Y-%m-%d')" || echo "No changes to commit"
           git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} HEAD:main
-          
