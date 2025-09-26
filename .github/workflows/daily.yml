@@ -14,21 +14,26 @@ jobs:
       OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
 
     steps:
+      # Checkout code
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      # Set up Node.js
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '18'
 
+      # Install dependencies
       - name: Install dependencies
         run: npm install
 
+      # Run daily script: fetch problem + generate markdown + AI solution
       - name: Run daily script
         run: npm run daily
-        continue-on-error: true  # ensures AI failure won't stop commit
+        continue-on-error: true  # AI failure won't block the commit
 
+      # Commit & push
       - name: Commit and push
         run: |
           git config user.name "mahavirgoyal32"
